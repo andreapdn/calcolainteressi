@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>EveryDay</title>
+</head>
+<body>
+    <div id="change">
+        <div class="field">
+            <div>CryptoIn:</div>
+            <div><input type="text" class="inputField" placeholder="10"
+                onchange="onChange('cryptoIn', this.value)"></div>
+        </div>
+        <div class="field">
+            <div>Intervallo (in ore):</div>
+            <div><input type="text" class="inputField" placeholder="1"
+                onchange="onChange('interval', this.value)"></div>
+        </div>
+        <div class="field">
+            <div>Percentuale:</div>
+            <div><input type="text" class="inputField" placeholder="10"
+                onchange="onChange('percentuale', this.value)"></div>
+        </div>
+        <div class="field">
+            <div>CryptoOut:</div>
+            <div><input type="text" class="inputField" placeholder="20"
+                onchange="onChange('cryptoOut', this.value)"></div>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <td>Giorno</td>
+            <td>Saldo</td>
+            <td>Interessi</td>
+        </thead>
+        <tbody id="root">
+        </tbody>
+    </table>
+</body>
+<script src="script.js"></script>
+</html>

@@ -1,0 +1,28 @@
+body {
+    background: lightgreen;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+table {
+    margin: 1rem;
+    border-collapse: collapse;
+}
+td {
+    border: 1px solid black;
+    padding: 1rem;
+    text-align: center;
+}
+thead td {
+    font-weight: bold;
+}
+#change {
+    margin: 1rem;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+}
+.field {
+    margin-top: .5rem;
+}
