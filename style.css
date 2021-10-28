@@ -4,6 +4,7 @@ body {
     font-family: 'Roboto', sans-serif;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 table {
     margin: 1rem;
