@@ -16,7 +16,7 @@ class Momento {
     getMoment = () => {
         const {now, saldo, percent} = this;
         return {
-            now: `${now.getDay()}/${now.getMonth() + 1}/${now.getFullYear()} - ${now.getHours()}:${now.getMinutes()}`,
+            now: `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} - ${hhmm(now)}`,
             saldo,
             interesse: saldo * percent,
         }
@@ -68,6 +68,14 @@ function onChange(id, value) {
         window.data[id] = nVal;
         update();
     }
+}
+
+function hhmm(date) {
+    let hh = date.getHours();
+    let mm = date.getMinutes();
+    mm = (mm > 9 ? '' : '0') + mm;
+    hh = (hh > 9 ? '' : '0') + hh;
+    return `${hh}:${mm}`;
 }
 
 const inputs = document.getElementsByClassName('inputField');
