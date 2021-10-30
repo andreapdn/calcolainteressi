@@ -56,7 +56,7 @@ const update = () => {
 
 function addRow(m) {
     let {saldo, interest} = m;
-    const appr = 10000;
+    const appr = 1000000;
     saldo = Math.floor(saldo * appr) / appr;
     interest = Math.floor(interest * appr) / appr;
     
