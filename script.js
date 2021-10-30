@@ -2,23 +2,25 @@ class Momento {
     constructor(cryptoIn, interval, percent) {
         this.now = new Date();
         this.saldo = cryptoIn;
+        this.interest = 0;
         this.interval = interval; // in hours
         this.percent = percent / 100;
         this.history = [];
     }
 
     addMoney = () => {
-        this.saldo += this.saldo * this.percent;
+        this.interest = this.saldo * this.percent
+        this.saldo += this.interest;
         this.now.setHours(this.now.getHours() + this.interval);
         this.history.push(this.getMoment());
     }
 
     getMoment = () => {
-        const {now, saldo, percent} = this;
+        const {now, saldo, percent, interest} = this;
         return {
             now: `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} - ${hhmm(now)}`,
             saldo,
-            interesse: saldo * percent,
+            interest,
         }
     }
 
@@ -53,13 +55,13 @@ const update = () => {
 }
 
 function addRow(m) {
-    let {saldo, interesse} = m;
+    let {saldo, interest} = m;
     const appr = 10000;
     saldo = Math.floor(saldo * appr) / appr;
-    interesse = Math.floor(interesse * appr) / appr;
+    interest = Math.floor(interest * appr) / appr;
     
     // giorno saldo interessi
-    rows += `<tr><td>${m.now}</td><td>${saldo}</td><td>${interesse}</td></tr>`
+    rows += `<tr><td>${m.now}</td><td>${saldo}</td><td>${interest}</td></tr>`
 }
 
 function onChange(id, value) {
