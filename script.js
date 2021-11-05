@@ -60,6 +60,8 @@ const update = () => {
 }
 
 function updateWithConv(mons, i = 0) {
+    if (axios === undefined) return errorCoinGecko();
+
     axios.get(getUrl(mons[i]))
         .then((resp) => {
             console.log(mons);
@@ -69,9 +71,13 @@ function updateWithConv(mons, i = 0) {
         })
         .catch((err) => {
             console.log(err);
-            alert('Non riesco a comunicare con CoinGecko.\n' +
-                'E possibile che le conversioni in euro siano assenti.')
+            errorCoinGecko();
         });
+}
+
+function errorCoinGecko() {
+    alert('Non riesco a comunicare con CoinGecko.\n' +
+                'E possibile che le conversioni in euro siano assenti.');
 }
 
 function addRow(m) {
