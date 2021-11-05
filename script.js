@@ -64,7 +64,6 @@ function updateWithConv(mons, i = 0) {
 
     axios.get(getUrl(mons[i]))
         .then((resp) => {
-            console.log(mons);
             window.data.convs.push(resp.data[mons[i]].eur);
             if (mons[i + 1]) updateWithConv(mons, i + 1);
             update();
