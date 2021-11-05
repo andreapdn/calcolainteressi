@@ -75,13 +75,11 @@ function addRow(m) {
     const appr = 1000000;
     saldo = Math.floor(saldo * appr) / appr;
     interest = Math.floor(interest * appr) / appr;
-    const e = eurConvs.map((eur) => {
-        if (eur == undefined) return '0';
-        return Math.floor(eur * 100) / 100;
-    });
+    const e = eurConvs.map((eur) =>  Math.floor(eur * 100) / 100);
     
+    const dsp = (e) => e === undefined ? '?' : e;
     // giorno saldo interessi
-    rows += `<tr><td>${m.now}</td><td>${saldo}</td><td>${interest}</td><td>${e[0]}</td><td>${e[1]}</td></tr>`
+    rows += `<tr><td>${m.now}</td><td>${saldo}</td><td>${interest}</td><td>${dsp(e[0])}</td><td>${dsp(e[1])}</td></tr>`
 }
 
 function onChange(id, value) {
