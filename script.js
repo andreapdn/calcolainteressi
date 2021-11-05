@@ -67,7 +67,11 @@ function updateWithConv(mons, i = 0) {
             if (mons[i + 1]) updateWithConv(mons, i + 1);
             update();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            console.log(err);
+            alert('Non riesco a comunicare con CoinGecko.\n' +
+                'E possibile che le conversioni in euro siano assenti.')
+        });
 }
 
 function addRow(m) {
