@@ -27,3 +27,7 @@ thead td {
 .field {
     margin-top: .5rem;
 }
+
+#currency {
+    width: 13ch;
+}

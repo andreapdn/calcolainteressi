@@ -1,12 +1,12 @@
 class Momento {
-    constructor(cryptoIn, interval, percent, convs) {
+    constructor(cryptoIn, interval, percent, conv) {
         this.now = new Date();
         this.saldo = cryptoIn;
         this.interest = 0;
         this.interval = interval; // in hours
         this.percent = percent / 100;
         this.history = [];
-        this.convs = convs;
+        this.conv = conv;
     }
 
     addMoney = () => {
@@ -17,12 +17,12 @@ class Momento {
     }
 
     getMoment = () => {
-        const {now, saldo, percent, interest, conv} = this;
+        const {now, saldo, interest, conv} = this;
         return {
             now: `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} - ${hhmm(now)}`,
             saldo,
             interest,
-            eurConvs: this.convs.map((v) => v * saldo),
+            conv: conv * saldo,
         }
     }
 
@@ -35,53 +35,79 @@ class Momento {
     }
 }
 
+const baseUrl = 'https://api.coingecko.com/api/v3';
 const getEl = document.getElementById.bind(document);
 const root = getEl('root');
 window.data = {
-    cryptoIn: 10,
+    cryptoIn: 1,
     interval: 1,
     percentuale: 10,
     cryptoOut: 20,
-    convs: [],
+    conv: 0,
+    options: [],
 };
 const d = window.data;
 const now = new Date();
 let rows = '';
 const getUrl = (mon1 = '', mon2 = 'eur') =>
-    `https://api.coingecko.com/api/v3/simple/price?ids=${mon1}&vs_currencies=${mon2}`;
+    `${baseUrl}/simple/price?ids=${mon1}&vs_currencies=${mon2}`;
 
 const update = () => {
     rows = '';
-    const {cryptoIn, cryptoOut, interval, percentuale, convs} = d;
-    const moment = new Momento(cryptoIn, interval, percentuale, convs);
+    const {cryptoIn, cryptoOut, interval, percentuale, conv} = d;
+    const moment = new Momento(cryptoIn, interval, percentuale, conv);
     moment.touchCryptoOut(cryptoOut);
     moment.getHistory().forEach(addRow)
     root.innerHTML = rows;
 }
 
-function updateWithConv(mons, i = 0) {
-    axios.get(getUrl(mons[i]))
+function updateWithConv(mon1, mon2 = 'eur') {
+    if (mon1 === undefined) {
+        const currency = document.getElementById('currency');
+        const name = currency.value;
+        const i = d.options.findIndex((v) => v.name == name);
+        if (i == -1) {
+            d.conv = 0;
+            update();
+            return;
+        } else {
+            mon1 = d.options[i].id;
+        }
+    }
+    axios.get(getUrl(mon1, mon2))
         .then((resp) => {
-            console.log(mons);
-            window.data.convs.push(resp.data[mons[i]].eur);
-            if (mons[i + 1]) updateWithConv(mons, i + 1);
+            console.log(mon1);
+            console.log(resp.data[mon1]);
+            d.conv = resp.data[mon1][mon2];
             update();
         })
         .catch((err) => console.log(err));
 }
 
+function getCurrencies() {
+    const currDatalist = document.getElementById('currencies');
+    axios.get(`${baseUrl}/coins/list`)
+        .then((resp) => {
+            const dt = resp.data;
+            d.options = dt;
+            const getOpt = (val) => `<option value="${val}">`;
+            let options = '';
+            dt.forEach((v) => options += getOpt(v.name))
+            currDatalist.innerHTML = options;
+        })
+        .catch((err) => console.error(err));
+}
+getCurrencies();
+
 function addRow(m) {
-    let {saldo, interest, eurConvs} = m;
+    let {saldo, interest, conv} = m;
     const appr = 1000000;
     saldo = Math.floor(saldo * appr) / appr;
     interest = Math.floor(interest * appr) / appr;
-    const e = eurConvs.map((eur) => {
-        if (eur == undefined) return '0';
-        return Math.floor(eur * 100) / 100;
-    });
+    conv = Math.floor(conv * 100) / 100;
     
     // giorno saldo interessi
-    rows += `<tr><td>${m.now}</td><td>${saldo}</td><td>${interest}</td><td>${e[0]}</td><td>${e[1]}</td></tr>`
+    rows += `<tr><td>${m.now}</td><td>${saldo}</td><td>${interest}</td><td>${conv}€</td></tr>`
 }
 
 function onChange(id, value) {
@@ -89,7 +115,7 @@ function onChange(id, value) {
     if (!(Number.isNaN(nVal)) && nVal > 0) {
         window.data[id] = nVal;
         update();
-        updateWithConv(['wonderland', 'klima-dao']);
+        updateWithConv();
     }
 }
 
@@ -105,4 +131,4 @@ const inputs = document.getElementsByClassName('inputField');
 Array.from(inputs).forEach((v) => v.value = '');
 
 update();
-updateWithConv(['wonderland', 'klima-dao']);
+updateWithConv('bitcoin');

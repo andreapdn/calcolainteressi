@@ -12,7 +12,7 @@
     <div id="change">
         <div class="field">
             <div>CryptoIn:</div>
-            <div><input type="text" class="inputField" placeholder="10"
+            <div><input type="text" class="inputField" placeholder="1"
                 onchange="onChange('cryptoIn', this.value)"></div>
         </div>
         <div class="field">
@@ -31,13 +31,19 @@
                 onchange="onChange('cryptoOut', this.value)"></div>
         </div>
     </div>
+
+    <datalist id="currencies"></datalist>
+
     <table>
         <thead>
             <td>Giorno</td>
             <td>Saldo</td>
             <td>Interessi</td>
-            <td>TIME/EUR</td>
-            <td>KLIMA/EUR</td>
+            <td>
+                <input list="currencies" id="currency" value="Bitcoin"
+                    name="currency" onchange="updateWithConv()" />
+                /EUR
+            </td>
         </thead>
         <tbody id="root">
         </tbody>
