@@ -13,7 +13,7 @@
         <div class="field">
             <div>CryptoIn:</div>
             <div><input type="text" class="inputField" placeholder="1"
-                onchange="onChange('cryptoIn', this.value)"></div>
+                onkeyup="onChange('cryptoIn', this.value)"></div>
         </div>
         <div class="field">
             <div>Intervallo (in ore):</div>
@@ -40,7 +40,7 @@
             <td>Saldo</td>
             <td>Interessi</td>
             <td>
-                <input list="currencies" id="currency" value="Bitcoin"
+                <input list="currencies" id="currency" value=""
                     name="currency" onchange="updateWithConv()" />
                 /EUR
             </td>

@@ -35,6 +35,13 @@ class Momento {
     }
 }
 
+// Displaying error if axios is not defined
+if (typeof axios == 'undefined') {
+    errorCoinGecko();
+} else {
+    document.getElementById('currency').value = 'Bitcoin';
+}
+
 const baseUrl = 'https://api.coingecko.com/api/v3';
 const getEl = document.getElementById.bind(document);
 const root = getEl('root');
@@ -62,6 +69,8 @@ const update = () => {
 }
 
 function updateWithConv(mon1, mon2 = 'eur') {
+    if (typeof axios == 'undefined') return;
+
     if (mon1 === undefined) {
         const currency = document.getElementById('currency');
         const name = currency.value;
@@ -74,6 +83,7 @@ function updateWithConv(mon1, mon2 = 'eur') {
             mon1 = d.options[i].id;
         }
     }
+
     axios.get(getUrl(mon1, mon2))
         .then((resp) => {
             console.log(mon1);
@@ -88,11 +98,13 @@ function updateWithConv(mon1, mon2 = 'eur') {
 }
 
 function errorCoinGecko() {
-    alert('Non riesco a comunicare con CoinGecko.\n' +
-                'E possibile che le conversioni in euro siano assenti.');
+    alert('Impossibile raggiungere il server col tasso di cambio. ' +
+        'E\' comunque possibile utilizzare l\'applicazione senza ' +
+        'usufruire delle conversioni in euro.');
 }
 
 function getCurrencies() {
+    if (typeof axios == 'undefined') return;
     const currDatalist = document.getElementById('currencies');
     axios.get(`${baseUrl}/coins/list`)
         .then((resp) => {
@@ -105,7 +117,6 @@ function getCurrencies() {
         })
         .catch((err) => console.error(err));
 }
-getCurrencies();
 
 function addRow(m) {
     let {saldo, interest, conv} = m;
@@ -139,5 +150,6 @@ function hhmm(date) {
 const inputs = document.getElementsByClassName('inputField');
 Array.from(inputs).forEach((v) => v.value = '');
 
+getCurrencies();
 update();
 updateWithConv('bitcoin');
