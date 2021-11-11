@@ -7,10 +7,12 @@ class Momento {
         this.percent = percent / 100;
         this.history = [];
         this.conv = conv;
+
+        this.history.push(this.getMoment());
     }
 
     addMoney = () => {
-        this.interest = this.saldo * this.percent
+        this.interest = this.saldo * this.percent;
         this.saldo += this.interest;
         this.now.setHours(this.now.getHours() + this.interval);
         this.history.push(this.getMoment());
