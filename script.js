@@ -88,8 +88,6 @@ function updateWithConv(mon1, mon2 = 'eur') {
 
     axios.get(getUrl(mon1, mon2))
         .then((resp) => {
-            console.log(mon1);
-            console.log(resp.data[mon1]);
             d.conv = resp.data[mon1][mon2];
             update();
         })
