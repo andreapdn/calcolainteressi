@@ -81,7 +81,15 @@ function updateWithConv(mon1, mon2 = 'eur') {
             d.conv = resp.data[mon1][mon2];
             update();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            console.log(err);
+            errorCoinGecko();
+        });
+}
+
+function errorCoinGecko() {
+    alert('Non riesco a comunicare con CoinGecko.\n' +
+                'E possibile che le conversioni in euro siano assenti.');
 }
 
 function getCurrencies() {
@@ -106,6 +114,7 @@ function addRow(m) {
     interest = Math.floor(interest * appr) / appr;
     conv = Math.floor(conv * 100) / 100;
     
+    const dsp = (e) => e === undefined ? '?' : e;
     // giorno saldo interessi
     rows += `<tr><td>${m.now}</td><td>${saldo}</td><td>${interest}</td><td>${conv}€</td></tr>`
 }
