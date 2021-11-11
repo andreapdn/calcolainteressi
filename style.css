@@ -31,3 +31,12 @@ thead td {
 #currency {
     width: 13ch;
 }
+
+@media only screen and (max-width: 470px) {
+    body {
+        font-size: .8rem;
+    }
+    td {
+        padding: .5rem;
+    }
+}
