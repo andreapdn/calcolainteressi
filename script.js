@@ -153,3 +153,4 @@ Array.from(inputs).forEach((v) => v.value = '');
 getCurrencies();
 update();
 updateWithConv('bitcoin');
+
