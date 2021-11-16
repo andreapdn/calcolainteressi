@@ -1,5 +1,5 @@
 body {
-    background: #ccb6f0;
+    background: #f0d0b6;
     font-size: 1rem;
     font-family: 'Roboto', sans-serif;
     display: flex;
@@ -30,4 +30,13 @@ thead td {
 
 #currency {
     width: 13ch;
+}
+
+@media only screen and (max-width: 470px) {
+    body {
+        font-size: .8rem;
+    }
+    td {
+        padding: .5rem;
+    }
 }

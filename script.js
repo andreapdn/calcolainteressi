@@ -7,10 +7,12 @@ class Momento {
         this.percent = percent / 100;
         this.history = [];
         this.conv = conv;
+
+        this.history.push(this.getMoment());
     }
 
     addMoney = () => {
-        this.interest = this.saldo * this.percent
+        this.interest = this.saldo * this.percent;
         this.saldo += this.interest;
         this.now.setHours(this.now.getHours() + this.interval);
         this.history.push(this.getMoment());
@@ -86,8 +88,6 @@ function updateWithConv(mon1, mon2 = 'eur') {
 
     axios.get(getUrl(mon1, mon2))
         .then((resp) => {
-            console.log(mon1);
-            console.log(resp.data[mon1]);
             d.conv = resp.data[mon1][mon2];
             update();
         })
